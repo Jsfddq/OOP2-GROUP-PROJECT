@@ -1,7 +1,7 @@
 import java.util.*;
 
 class GuessGame {
-    Scanner scanner = new Scanner(System.in);
+    Scanner scan = new Scanner(System.in);
     Random random = new Random();
     public void guessNumber() {
         int numberToGuess = random.nextInt(100) + 1;
@@ -10,10 +10,10 @@ class GuessGame {
         while (true) {
             System.out.print("Enter your guess: ");
             try {
-                guess = scanner.nextInt();
+                guess = scan.nextInt();
             } catch (Exception e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next();
+                scan.next();
                 continue;
             }
             attempts++;
@@ -26,6 +26,6 @@ class GuessGame {
                 System.out.println("Too high. Try again.");
             }
         }
-        scanner.close();
+        scan.close();
     }
 }
