@@ -1,7 +1,7 @@
 import java.util.*;
 
 class RPSGame{
-    public static void main(String[] args){
+    public void startRSPGame(){
         Scanner scan = new Scanner(System.in);
         Random ran = new Random();
         String options[] = {"Rock", "Paper", "Scissors"};
