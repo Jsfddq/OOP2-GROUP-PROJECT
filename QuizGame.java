@@ -9,7 +9,7 @@ public class QuizGame {
         game.startQuiz();
     }*/
 
-    public void startQuiz(){
+    public void startQuiz(InputHandler ih, ScoreManager sm){
         Scanner scan = new Scanner(System.in);
         int score = 0;
 
@@ -39,6 +39,7 @@ public class QuizGame {
 
                     if (userAnswer == answers[i]) {
                         System.out.println("Correct!\n");
+                        sm.addPoints(1);
                         score++;
                     } else {
                         System.out.println("Wrong. The correct answer was: " + answers[i] + "\n");
