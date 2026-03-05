@@ -1,7 +1,7 @@
 import java.util.*;
 
 class RPSGame{
-    public void startRPSgame(){
+    public void startRPSgame(InputHandler ih, ScoreManager sm){
         Scanner scan = new Scanner(System.in);
         Random ran = new Random();
         String options[] = {"Rock", "Paper", "Scissors"};
@@ -38,6 +38,7 @@ class RPSGame{
                            (playerC == 1 && compC == 0) || 
                            (playerC == 2 && compC == 1)) {
                     System.out.println("You win!");
+                    sm.addPoints(5);
                 } else {
                     System.out.println("Computer wins!");
                 }
