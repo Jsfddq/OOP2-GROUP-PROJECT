@@ -1,7 +1,7 @@
 import java.util.*;
 
 class RPSGame{
-    public void startRSPGame(){
+    public void startRPSgame(){
         Scanner scan = new Scanner(System.in);
         Random ran = new Random();
         String options[] = {"Rock", "Paper", "Scissors"};
@@ -44,7 +44,9 @@ class RPSGame{
             }
             System.out.print("Do you want to try again? 1 (yes) / 0 (no): ");
             tryAgain = scan.nextInt();
-            round++;
+            if(validChoices){
+                round++;
+            }
             System.out.println("------------------------------------------------");
             System.out.println();
             System.out.println();
