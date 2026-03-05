@@ -3,7 +3,7 @@ import java.util.*;
 class GuessGame {
     Scanner scan = new Scanner(System.in);
     Random random = new Random();
-    public void guessNumber() {
+    public void guessNumber(InputHandler ih, ScoreManager sm) {
         int numberToGuess = random.nextInt(100) + 1;
         int attempts = 0;
         int guess;
@@ -19,6 +19,7 @@ class GuessGame {
             attempts++;
             if (guess == numberToGuess) {
                 System.out.println("Congratulations! You guessed the number in " + attempts + " attempts.");
+                sm.addPoints(10);
                 break;
             } else if (guess < numberToGuess) {
                 System.out.println("Too low. Try again.");
