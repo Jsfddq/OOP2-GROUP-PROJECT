@@ -1,1 +1,5 @@
 *.class
+ArcadeGameHub/**/*.class
+.vscode/
+.DS_Store
+Thumbs.db
