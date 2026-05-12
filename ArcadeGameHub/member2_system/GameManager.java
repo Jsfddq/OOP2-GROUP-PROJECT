@@ -1,9 +1,13 @@
 package member2_system;
 
+import ArcadeGameHub.member2_system.ScoreManager;
+import ArcadeGameHub.member3_minigames.TicTacToe;
 import member1_core.Player;
 import member3_minigames.GuessGame;
 import member3_minigames.QuizGame;
 import member3_minigames.RPSGame;
+import member3_minigames.MemoryMatch;
+import member3_minigames.Minefield;
 import member4_output.Display;
 
 
@@ -38,7 +42,10 @@ public class GameManager {
         System.out.println("║  2. Rock Paper Scissors                ║");
         System.out.println("║  3. Quiz Game                          ║");
         System.out.println("║  4. View Current Score                 ║");
-        System.out.println("║  5. Exit                               ║");
+        System.out.println("║  5. Memory Match                       ║");
+        System.out.println("║  6. Minefield                          ║");
+        System.out.println("║  7. View Current Score                 ║");
+        System.out.println("║  8. Exit                               ║");
         System.out.println("╚════════════════════════════════════════╝");
     }
 
@@ -54,9 +61,18 @@ public class GameManager {
                 playQuizGame();
                 break;
             case 4:
-                scoreManager.showScore();
+                playTicTacToe();
                 break;
             case 5:
+                playMemoryMatch();
+                break;
+            case 6:
+                playMinefield();
+                break;
+            case 7:
+                scoreManager.showScore();
+                break;
+            case 8;
                 exitGame();
                 break;
         }
@@ -76,6 +92,24 @@ public class GameManager {
 
     private void playQuizGame() {
         QuizGame game = new QuizGame(inputHandler, scoreManager, display);
+        game.startGame();
+        askPlayAgain();
+    }
+
+    private void playTicTacToe(){
+        TicTacToe game = new TicTacToe();
+        game.startGame();
+        askPlayAgain();
+    }
+
+    private void playMemoryMatch(){
+        MemoryMatch game = new MemoryMatch();
+        game.startGame();
+        askPlayAgain();
+    }
+
+    private void playMinefield(){
+        Minefield game = new Minefield();
         game.startGame();
         askPlayAgain();
     }
