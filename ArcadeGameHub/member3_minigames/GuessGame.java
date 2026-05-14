@@ -1,10 +1,10 @@
 package ArcadeGameHub.member3_minigames;
 
-import java.util.Random;
 import ArcadeGameHub.member1_core.Game;
 import ArcadeGameHub.member2_system.InputHandler;
 import ArcadeGameHub.member2_system.ScoreManager;
 import ArcadeGameHub.member4_output.Display;
+import java.util.Random;
 
 public class GuessGame extends Game {
     private InputHandler inputHandler;
@@ -22,26 +22,33 @@ public class GuessGame extends Game {
 
     @Override
     public void play() {
-        int numberToGuess = random.nextInt(100) + 1;
-        int attempts = 0;
         int guess;
-        boolean won = false;
+        boolean playing = true;
 
-        System.out.println("\n[GUESS THE NUMBER]");
-        System.out.println("I'm thinking of a number between 1 and 100...");
-
-        while (!won) {
+        while(playing){ // changed this
+            int numberToGuess = random.nextInt(100) + 1;
+            int attempts = 0;
+            boolean won = false;
+            System.out.println("\n[GUESS THE NUMBER]");
+            System.out.println("I'm thinking of a number between 1 and 100...");
+                
+            while (!won) {
             guess = inputHandler.getIntInputInRange("Enter your guess (1-100): ", 1, 100);
             attempts++;
 
-            if (guess == numberToGuess) {
-                System.out.println("[SUCCESS] Congratulations! You guessed it in " + attempts + " attempts!");
-                scoreManager.addPoints(10);
-                won = true;
-            } else if (guess < numberToGuess) {
-                System.out.println("[TOO LOW] Try again!");
-            } else {
-                System.out.println("[TOO HIGH] Try again!");
+                if (guess == numberToGuess) {
+                    System.out.println("[SUCCESS] Congratulations! You guessed it in " + attempts + " attempts!");
+                    scoreManager.addPoints(10);
+                    won = true;
+                } else if (guess < numberToGuess) {
+                    System.out.println("[TOO LOW] Try again!");
+                } else {
+                    System.out.println("[TOO HIGH] Try again!");
+                }
+            }
+            String again = inputHandler.getStringInput("Play another round? (y/n): "); // added this
+            if(again.equalsIgnoreCase("n")){
+                playing = false;
             }
         }
     }

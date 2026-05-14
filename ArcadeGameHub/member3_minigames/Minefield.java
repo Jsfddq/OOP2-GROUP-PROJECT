@@ -1,10 +1,10 @@
 package ArcadeGameHub.member3_minigames;
 
-import java.util.Random;
 import ArcadeGameHub.member1_core.Game;
 import ArcadeGameHub.member2_system.InputHandler;
 import ArcadeGameHub.member2_system.ScoreManager;
 import ArcadeGameHub.member4_output.Display;
+import java.util.Random;
 
 public class Minefield extends Game {
     private boolean[] mines;
@@ -52,6 +52,7 @@ public class Minefield extends Game {
     public void play() {
         System.out.println("\nWelcome to Minefield!");
         initializeField();
+        String playAgain;
         int uncoveredCount = 0;
         boolean gameOver = false;
         
@@ -84,6 +85,7 @@ public class Minefield extends Game {
             }
         }
         
+        
         if (uncoveredCount == safeTiles && !gameOver) {
             displayField(true);
             System.out.println("\nVICTORY! You cleared all safe tiles!");
@@ -93,7 +95,6 @@ public class Minefield extends Game {
             System.out.println("\nGAME OVER!");
             System.out.println("You cleared " + uncoveredCount + "/" + safeTiles + " safe tiles.");
         }
-        
         endGame();
     }
     
@@ -182,7 +183,6 @@ public class Minefield extends Game {
         System.out.println("? Clear all 20 safe tiles to win!");
         System.out.println("================================\n");
     }
-
     @Override
     public void endGame() {
         System.out.println("Thanks for playing Minefield!");
