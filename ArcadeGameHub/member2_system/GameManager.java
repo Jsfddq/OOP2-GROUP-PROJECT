@@ -1,11 +1,13 @@
-package member2_system;
+package ArcadeGameHub.member2_system;
 
-import member1_core.Player;
-import member3_minigames.GuessGame;
-import member3_minigames.QuizGame;
-import member3_minigames.RPSGame;
-import member4_output.Display;
-
+import ArcadeGameHub.member1_core.Player;
+import ArcadeGameHub.member3_minigames.GuessGame;
+import ArcadeGameHub.member3_minigames.QuizGame;
+import ArcadeGameHub.member3_minigames.RPSGame;
+import ArcadeGameHub.member3_minigames.TicTacToe;
+import ArcadeGameHub.member3_minigames.MemoryMatch;
+import ArcadeGameHub.member3_minigames.Minefield;
+import ArcadeGameHub.member4_output.Display;
 
 public class GameManager {
     private Player player;
@@ -25,21 +27,24 @@ public class GameManager {
     public void start() {
         while (isRunning) {
             displayMenu();
-            int choice = inputHandler.getIntInputInRange("Enter your choice (1-5): ", 1, 5);
+            int choice = inputHandler.getIntInputInRange("Enter your choice (1-8): ", 1, 8);
             processChoice(choice);
         }
     }
 
     private void displayMenu() {
-        System.out.println("\n╔════════════════════════════════════════╗");
-        System.out.println("║            MAIN MENU                   ║");
-        System.out.println("╠════════════════════════════════════════╣");
-        System.out.println("║  1. Guess the Number Game              ║");
-        System.out.println("║  2. Rock Paper Scissors                ║");
-        System.out.println("║  3. Quiz Game                          ║");
-        System.out.println("║  4. View Current Score                 ║");
-        System.out.println("║  5. Exit                               ║");
-        System.out.println("╚════════════════════════════════════════╝");
+        System.out.println("\n+----------------------------------------+");
+        System.out.println("|            MAIN MENU                   |");
+        System.out.println("+----------------------------------------+");
+        System.out.println("|  1. Guess the Number Game              |");
+        System.out.println("|  2. Rock Paper Scissors                |");
+        System.out.println("|  3. Quiz Game                          |");
+        System.out.println("|  4. Tic-Tac-Toe                        |");
+        System.out.println("|  5. Memory Match                       |");
+        System.out.println("|  6. Minefield                          |");
+        System.out.println("|  7. View Current Score                 |");
+        System.out.println("|  8. Exit                               |");
+        System.out.println("+----------------------------------------+");
     }
 
     private void processChoice(int choice) {
@@ -54,9 +59,18 @@ public class GameManager {
                 playQuizGame();
                 break;
             case 4:
-                scoreManager.showScore();
+                playTicTacToe();
                 break;
             case 5:
+                playMemoryMatch();
+                break;
+            case 6:
+                playMinefield();
+                break;
+            case 7:
+                scoreManager.showScore();
+                break;
+            case 8:
                 exitGame();
                 break;
         }
@@ -80,9 +94,29 @@ public class GameManager {
         askPlayAgain();
     }
 
+    private void playTicTacToe() {
+        TicTacToe game = new TicTacToe(inputHandler, scoreManager, display);
+        game.startGame();
+        askPlayAgain();
+    }
+
+    private void playMemoryMatch() {
+        MemoryMatch game = new MemoryMatch(inputHandler, scoreManager, display);
+        game.startGame();
+        askPlayAgain();
+    }
+
+    private void playMinefield() {
+        Minefield game = new Minefield(inputHandler, scoreManager, display);
+        game.startGame();
+        askPlayAgain();
+    }
+
     private void askPlayAgain() {
-        String choice = inputHandler.getStringInput("\nPlay again? (y/n): ");
+        String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
         if (choice.equalsIgnoreCase("n")) {
+            // Return to main menu
+        } else {
             displayMenu();
         }
     }
