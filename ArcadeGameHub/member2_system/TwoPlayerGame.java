@@ -6,3 +6,4 @@ public interface TwoPlayerGame {
     boolean isPlayer2Turn();
 }
 
+

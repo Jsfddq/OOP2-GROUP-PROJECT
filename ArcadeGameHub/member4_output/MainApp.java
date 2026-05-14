@@ -1,8 +1,8 @@
-package member4_output;
+package ArcadeGameHub.member4_output;
 
-import member1_core.Player;
-import member2_system.GameManager;
-import member2_system.InputHandler;
+import ArcadeGameHub.member1_core.Player;
+import ArcadeGameHub.member2_system.GameManager;
+import ArcadeGameHub.member2_system.InputHandler;
 
 public class MainApp {
     

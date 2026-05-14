@@ -1,4 +1,4 @@
-package member1_core;
+package ArcadeGameHub.member1_core;
 
 public abstract class Game implements Playable {
     protected String gameName;

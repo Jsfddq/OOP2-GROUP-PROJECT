@@ -1,9 +1,9 @@
-package member3_minigames;
+package ArcadeGameHub.member3_minigames;
 
-import member1_core.Game;
-import member2_system.InputHandler;
-import member2_system.ScoreManager;
-import member4_output.Display;
+import ArcadeGameHub.member1_core.Game;
+import ArcadeGameHub.member2_system.InputHandler;
+import ArcadeGameHub.member2_system.ScoreManager;
+import ArcadeGameHub.member4_output.Display;
 
 public class QuizGame extends Game {
     private InputHandler inputHandler;
@@ -30,7 +30,7 @@ public class QuizGame extends Game {
         int[] answers = {2, 2, 3, 9, 17};
         int score = 0;
 
-        System.out.println("\n📝 WELCOME TO THE JAVA QUIZ!");
+        System.out.println("\n???? WELCOME TO THE JAVA QUIZ!");
         System.out.println("Answer " + questions.length + " questions correctly to earn points!\n");
 
         for (int i = 0; i < questions.length; i++) {
@@ -38,33 +38,33 @@ public class QuizGame extends Game {
             int userAnswer = inputHandler.getIntInput("Your answer: ");
 
             if (userAnswer == answers[i]) {
-                System.out.println("✅ Correct!\n");
+                System.out.println("??? Correct!\n");
                 score++;
                 scoreManager.addPoints(2);
             } else {
-                System.out.println("❌ Wrong. The correct answer was: " + answers[i] + "\n");
+                System.out.println("??? Wrong. The correct answer was: " + answers[i] + "\n");
             }
         }
 
-        System.out.println("\n📊 QUIZ COMPLETE!");
+        System.out.println("\n???? QUIZ COMPLETE!");
         System.out.println("You got " + score + "/" + questions.length + " correct!");
         
         if (score == questions.length) {
-            System.out.println("🎉 PERFECT SCORE! You're a Java expert!");
+            System.out.println("???? PERFECT SCORE! You're a Java expert!");
         } else if (score >= questions.length / 2) {
-            System.out.println("👍 Good job! Keep practicing!");
+            System.out.println("???? Good job! Keep practicing!");
         } else {
-            System.out.println("📚 Keep studying Java! You'll get better!");
+            System.out.println("???? Keep studying Java! You'll get better!");
         }
     }
 
     @Override
     public void showInstructions() {
         System.out.println("\n=== QUIZ GAME INSTRUCTIONS ===");
-        System.out.println("• You'll be asked " + 5 + " Java questions");
-        System.out.println("• Enter the number of your answer");
-        System.out.println("• Each correct answer earns 2 points");
-        System.out.println("• Try to get them all right!");
+        System.out.println("??? You'll be asked " + 5 + " Java questions");
+        System.out.println("??? Enter the number of your answer");
+        System.out.println("??? Each correct answer earns 2 points");
+        System.out.println("??? Try to get them all right!");
         System.out.println("===============================\n");
     }
 

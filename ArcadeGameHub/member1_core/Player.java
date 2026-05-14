@@ -1,4 +1,4 @@
-package member1_core;
+package ArcadeGameHub.member1_core;
 
 public class Player {
     private String name;

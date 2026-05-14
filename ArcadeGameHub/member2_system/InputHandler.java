@@ -1,4 +1,4 @@
-package member2_system;
+package ArcadeGameHub.member2_system;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -21,7 +21,7 @@ public class InputHandler {
                 scanner.nextLine(); // Clear buffer
                 isValid = true;
             } catch (InputMismatchException e) {
-                System.out.println("❌ Invalid input. Please enter a number.");
+                System.out.println("??? Invalid input. Please enter a number.");
                 scanner.nextLine(); // Clear invalid input
             }
         }
@@ -33,7 +33,7 @@ public class InputHandler {
         do {
             input = getIntInput(prompt);
             if (input < min || input > max) {
-                System.out.println("❌ Please enter a number between " + min + " and " + max + ".");
+                System.out.println("??? Please enter a number between " + min + " and " + max + ".");
             }
         } while (input < min || input > max);
         return input;

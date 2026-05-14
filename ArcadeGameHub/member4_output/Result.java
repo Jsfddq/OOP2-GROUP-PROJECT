@@ -1,4 +1,4 @@
-package member4_output;
+package ArcadeGameHub.member4_output;
 
 public class Result {
     private String gameName;
