@@ -27,13 +27,13 @@ public class GameManager {
     public void start() {
         while (isRunning) {
             displayMenu();
-            int choice = inputHandler.getIntInputInRange("Enter your choice (1-8): ", 1, 8);
+            int choice = inputHandler.getIntInputInRange("Enter your choice (1-7): ", 1, 7);
             processChoice(choice);
         }
     }
 
     private void displayMenu() {
-        System.out.println("Current Score: " + scoreManager.getScore());
+        System.out.println("\nCurrent Score: " + scoreManager.getScore());
         System.out.println("\n+----------------------------------------+");
         System.out.println("|            Arcade Game Hub            |");
         System.out.println("+----------------------------------------+");
