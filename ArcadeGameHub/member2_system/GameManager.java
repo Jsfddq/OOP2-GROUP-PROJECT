@@ -33,17 +33,17 @@ public class GameManager {
     }
 
     private void displayMenu() {
+        System.out.println("Current Score: " + scoreManager.getScore());
         System.out.println("\n+----------------------------------------+");
-        System.out.println("|            MAIN MENU                   |");
+        System.out.println("|            Arcade Game Hub            |");
         System.out.println("+----------------------------------------+");
-        System.out.println("|  1. Guess the Number Game              |");
-        System.out.println("|  2. Rock Paper Scissors                |");
-        System.out.println("|  3. Quiz Game                          |");
-        System.out.println("|  4. Tic-Tac-Toe                        |");
-        System.out.println("|  5. Memory Match                       |");
-        System.out.println("|  6. Minefield                          |");
-        System.out.println("|  7. View Current Score                 |");
-        System.out.println("|  8. Exit                               |");
+        System.out.println("|  1. Guess the Number                  |");
+        System.out.println("|  2. Rock Paper Scissors               |");
+        System.out.println("|  3. Quiz Game                         |");
+        System.out.println("|  4. Tic-Tac-Toe                       |");
+        System.out.println("|  5. Memory Match                      |");
+        System.out.println("|  6. Minefield                         |");
+        System.out.println("|  7. Exit                              |");
         System.out.println("+----------------------------------------+");
     }
 
@@ -68,10 +68,10 @@ public class GameManager {
                 playMinefield();
                 break;
             case 7:
-                scoreManager.showScore();
-                break;
-            case 8:
                 exitGame();
+                break;
+            default:
+                System.out.println("??? Invalid choice. Please try again.");
                 break;
         }
     }
