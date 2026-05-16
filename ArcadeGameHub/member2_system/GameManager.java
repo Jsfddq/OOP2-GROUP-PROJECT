@@ -2,11 +2,11 @@ package ArcadeGameHub.member2_system;
 
 import ArcadeGameHub.member1_core.Player;
 import ArcadeGameHub.member3_minigames.GuessGame;
+import ArcadeGameHub.member3_minigames.MemoryMatch;
+import ArcadeGameHub.member3_minigames.Minefield;
 import ArcadeGameHub.member3_minigames.QuizGame;
 import ArcadeGameHub.member3_minigames.RPSGame;
 import ArcadeGameHub.member3_minigames.TicTacToe;
-import ArcadeGameHub.member3_minigames.MemoryMatch;
-import ArcadeGameHub.member3_minigames.Minefield;
 import ArcadeGameHub.member4_output.Display;
 
 public class GameManager {
@@ -116,8 +116,6 @@ public class GameManager {
         String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
         if (choice.equalsIgnoreCase("n")) {
             // Return to main menu
-        } else {
-            displayMenu();
         }
     }
 
