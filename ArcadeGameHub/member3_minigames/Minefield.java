@@ -58,7 +58,7 @@ public class Minefield extends Game {
         
         while (!gameOver && uncoveredCount < safeTiles) {
             displayField();
-            int position = inputHandler.getIntInputInRange("\nSelect a tile to reveal (1-25): ", 1, 25) - 1;
+            int position = inputHandler.getIntInputInRangeWithExit("\nSelect a tile to reveal (1-25): ", 1, 25) - 1;
             
             if (uncovered[position]) {
                 System.out.println("Tile already uncovered!");

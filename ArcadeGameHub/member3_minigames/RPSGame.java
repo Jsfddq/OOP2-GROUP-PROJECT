@@ -37,7 +37,7 @@ public class RPSGame extends Game {
             System.out.println("0 - Rock");
             System.out.println("1 - Paper");
             System.out.println("2 - Scissors");
-            int playerChoice = inputHandler.getIntInputInRange("Your choice (0-2): ", 0, 2);
+            int playerChoice = inputHandler.getIntInputInRangeWithExit("Your choice (0-2): ", 0, 2);
             
             // Get computer choice
             int computerChoice = random.nextInt(3);
@@ -64,7 +64,7 @@ public class RPSGame extends Game {
             System.out.println("\n???? Score: You " + playerWins + " - " + computerWins + " Computer");
             
             // Ask to play another round
-            String again = inputHandler.getStringInput("Play another round? (y/n): ");
+            String again = inputHandler.getStringInputWithExit("Play another round? (y/n): ");
             if (again.equalsIgnoreCase("n")) {
                 playing = false;
                 if (playerWins > computerWins) {

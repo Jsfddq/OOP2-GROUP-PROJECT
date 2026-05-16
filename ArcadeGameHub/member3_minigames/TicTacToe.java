@@ -32,7 +32,7 @@ public class TicTacToe extends Game {
         System.out.println("\nChoose game mode:");
         System.out.println("1. vs Computer");
         System.out.println("2. Two Player");
-        int mode = inputHandler.getIntInputInRange("Enter choice (1-2): ", 1, 2);
+        int mode = inputHandler.getIntInputInRangeWithExit("Enter choice (1-2): ", 1, 2);
         vsComputer = (mode == 1);
         
         if (vsComputer) {
@@ -40,9 +40,9 @@ public class TicTacToe extends Game {
             player2Name = "Computer";
         } else {
             System.out.print("Enter Player 1 name: ");
-            player1Name = inputHandler.getStringInput("");
+            player1Name = inputHandler.getStringInputWithExit("");
             System.out.print("Enter Player 2 name: ");
-            player2Name = inputHandler.getStringInput("");
+            player2Name = inputHandler.getStringInputWithExit("");
         }
         
         resetBoard();
@@ -61,7 +61,7 @@ public class TicTacToe extends Game {
             } else {
                 String currentName = (currentPlayer == 'X') ? player1Name : player2Name;
                 System.out.println("\n" + currentName + "'s turn (" + currentPlayer + ")");
-                int position = inputHandler.getIntInputInRange("Enter position (1-9): ", 1, 9);
+                int position = inputHandler.getIntInputInRangeWithExit("Enter position (1-9): ", 1, 9);
                 
                 if (!isValidMove(position)) {
                     System.out.println("Position already taken! Try again.");

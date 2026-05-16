@@ -79,37 +79,49 @@ public class GameManager {
     private void playGuessGame() {
         GuessGame game = new GuessGame(inputHandler, scoreManager, display);
         game.startGame();
-        askPlayAgain();
+        if (!game.wasExitedEarly()) {
+            askPlayAgain();
+        }
     }
 
     private void playRPSGame() {
         RPSGame game = new RPSGame(inputHandler, scoreManager, display);
         game.startGame();
-        askPlayAgain();
+        if (!game.wasExitedEarly()) {
+            askPlayAgain();
+        }
     }
 
     private void playQuizGame() {
         QuizGame game = new QuizGame(inputHandler, scoreManager, display);
         game.startGame();
-        askPlayAgain();
+        if (!game.wasExitedEarly()) {
+            askPlayAgain();
+        }
     }
 
     private void playTicTacToe() {
         TicTacToe game = new TicTacToe(inputHandler, scoreManager, display);
         game.startGame();
-        askPlayAgain();
+        if (!game.wasExitedEarly()) {
+            askPlayAgain();
+        }
     }
 
     private void playMemoryMatch() {
         MemoryMatch game = new MemoryMatch(inputHandler, scoreManager, display);
         game.startGame();
-        askPlayAgain();
+        if (!game.wasExitedEarly()) {
+            askPlayAgain();
+        }
     }
 
     private void playMinefield() {
         Minefield game = new Minefield(inputHandler, scoreManager, display);
         game.startGame();
-        askPlayAgain();
+        if (!game.wasExitedEarly()) {
+            askPlayAgain();
+        }
     }
 
     private void askPlayAgain() {
