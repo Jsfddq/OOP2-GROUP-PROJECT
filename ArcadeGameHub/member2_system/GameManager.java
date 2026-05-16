@@ -2,11 +2,11 @@ package ArcadeGameHub.member2_system;
 
 import ArcadeGameHub.member1_core.Player;
 import ArcadeGameHub.member3_minigames.GuessGame;
+import ArcadeGameHub.member3_minigames.MemoryMatch;
+import ArcadeGameHub.member3_minigames.Minefield;
 import ArcadeGameHub.member3_minigames.QuizGame;
 import ArcadeGameHub.member3_minigames.RPSGame;
 import ArcadeGameHub.member3_minigames.TicTacToe;
-import ArcadeGameHub.member3_minigames.MemoryMatch;
-import ArcadeGameHub.member3_minigames.Minefield;
 import ArcadeGameHub.member4_output.Display;
 
 public class GameManager {
@@ -179,18 +179,15 @@ public class GameManager {
         askPlayAgain();
     }
 
-    private void askPlayAgain() {
-        String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
-        System.out.println();
-         System.out.println();
-          System.out.println();
-        if (choice.equalsIgnoreCase("n")) {
-            
-        } else {
-            displayMenu();
-        }
+private void askPlayAgain() {
+    String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    if (choice.equalsIgnoreCase("n")) {
+        isRunning = false; // Stop the loop if they don't want to play again
     }
-
+}
     private void exitGame() {
         isRunning = false;
         display.showGoodbye(player.getName(), player.getScore() + scoreManager.getScore());
