@@ -35,7 +35,7 @@ public class QuizGame extends Game {
 
         for (int i = 0; i < questions.length; i++) {
             System.out.println("Question " + (i + 1) + ": " + questions[i]);
-            int userAnswer = inputHandler.getIntInput("Your answer: ");
+            int userAnswer = inputHandler.getIntInputWithExit("Your answer: ");
 
             if (userAnswer == answers[i]) {
                 System.out.println("??? Correct!\n");

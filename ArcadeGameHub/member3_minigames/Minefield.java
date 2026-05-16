@@ -30,7 +30,7 @@ public class Minefield extends Game {
     }
     
     private void initializeField() {
-        mines = new boolean[gridSize * gridSize];   
+        mines = new boolean[gridSize * gridSize];
         uncovered = new boolean[gridSize * gridSize];
         
         for (int i = 0; i < mines.length; i++) {
@@ -48,64 +48,52 @@ public class Minefield extends Game {
         }
     }
 
-   @Override
+    @Override
     public void play() {
-        int playerWins = 0;
-        int totalRounds = 0;
-        boolean playing = true;
-
-        while (playing) {
-            System.out.println("\nWelcome to Minefield!");
-            initializeField();
-            int uncoveredCount = 0;
-            boolean gameOver = false;
-            totalRounds++;
+        System.out.println("\nWelcome to Minefield!");
+        initializeField();
+        String playAgain;
+        int uncoveredCount = 0;
+        boolean gameOver = false;
+        
+        while (!gameOver && uncoveredCount < safeTiles) {
+            displayField();
+            int position = inputHandler.getIntInputInRangeWithExit("\nSelect a tile to reveal (1-25): ", 1, 25) - 1;
             
-            while (!gameOver && uncoveredCount < safeTiles) {
-                displayField();
-                int position = inputHandler.getIntInputInRange("\nSelect a tile to reveal (1-25): ", 1, 25) - 1;
-                
-                if (uncovered[position]) {
-                    System.out.println("Tile already uncovered!");
-                    continue;
-                }
-                
-                if (mines[position]) {
-                    displayField(true);
-                    System.out.println("\nBOOM! You hit a mine!");
-                    gameOver = true;
-                } else {
-                    uncovered[position] = true;
-                    uncoveredCount++;
-                    int nearbyMines = countNearbyMines(position);
-                    
-                    if (nearbyMines > 0) {
-                        System.out.println(nearbyMines + " mine(s) nearby! +2 points");
-                        scoreManager.addPoints(2);
-                    } else {
-                        System.out.println("Safe tile! +5 points!");
-                        scoreManager.addPoints(5);
-                        uncoveredCount = autoUncoverSafe(position, uncoveredCount);
-                    }
-                }
+            if (uncovered[position]) {
+                System.out.println("Tile already uncovered!");
+                continue;
             }
             
-            if (uncoveredCount == safeTiles && !gameOver) {
+            if (mines[position]) {
                 displayField(true);
-                System.out.println("\nVICTORY! You cleared all safe tiles!");
-                System.out.println("Safe tiles cleared: " + uncoveredCount + "/" + safeTiles);
-                scoreManager.addPoints(50);
-                playerWins++;
-            } else if (gameOver) {
-                System.out.println("\nGAME OVER!");
-                System.out.println("You cleared " + uncoveredCount + "/" + safeTiles + " safe tiles.");
+                System.out.println("\nBOOM! You hit a mine!");
+                gameOver = true;
+            } else {
+                uncovered[position] = true;
+                uncoveredCount++;
+                int nearbyMines = countNearbyMines(position);
+                
+                if (nearbyMines > 0) {
+                    System.out.println(nearbyMines + " mine(s) nearby! +2 points");
+                    scoreManager.addPoints(2);
+                } else {
+                    System.out.println("Safe tile! +5 points!");
+                    scoreManager.addPoints(5);
+                    uncoveredCount = autoUncoverSafe(position, uncoveredCount);
+                }
             }
-            
-            String again = inputHandler.getStringInput("\nPlay another round? (y/n): ");
-            if (again.equalsIgnoreCase("n")) {
-                playing = false;
-                System.out.println("\n???? You won " + playerWins + " out of " + totalRounds + " round(s)! Great job!");
-            }
+        }
+        
+        
+        if (uncoveredCount == safeTiles && !gameOver) {
+            displayField(true);
+            System.out.println("\nVICTORY! You cleared all safe tiles!");
+            System.out.println("Safe tiles cleared: " + uncoveredCount + "/" + safeTiles);
+            scoreManager.addPoints(50);
+        } else if (gameOver) {
+            System.out.println("\nGAME OVER!");
+            System.out.println("You cleared " + uncoveredCount + "/" + safeTiles + " safe tiles.");
         }
         endGame();
     }
@@ -200,4 +188,3 @@ public class Minefield extends Game {
         System.out.println("Thanks for playing Minefield!");
     }
 }
-

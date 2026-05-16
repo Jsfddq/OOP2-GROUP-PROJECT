@@ -64,8 +64,7 @@ public class MemoryMatch extends Game {
         while (pairsFound < totalPairs) {
             printBoard();
             
-            System.out.print("\nSelect first card (1-16): ");
-            int firstCard = inputHandler.getIntInputInRange("", 1, 16) - 1;
+            int firstCard = inputHandler.getIntInputInRangeWithExit("\nSelect first card (1-16): ", 1, 16) - 1;
             
             if (revealed[firstCard]) {
                 System.out.println("??? Card already revealed!");
@@ -75,8 +74,7 @@ public class MemoryMatch extends Game {
             revealed[firstCard] = true;
             printBoard();
             
-            System.out.print("\nSelect second card (1-16): ");
-            int secondCard = inputHandler.getIntInputInRange("", 1, 16) - 1;
+            int secondCard = inputHandler.getIntInputInRangeWithExit("\nSelect second card (1-16): ", 1, 16) - 1;
             
             if (secondCard == firstCard) {
                 System.out.println("??? Can't choose the same card!");

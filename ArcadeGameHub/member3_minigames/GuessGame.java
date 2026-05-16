@@ -33,7 +33,7 @@ public class GuessGame extends Game {
             System.out.println("I'm thinking of a number between 1 and 100...");
                 
             while (!won) {
-            guess = inputHandler.getIntInputInRange("Enter your guess (1-100): ", 1, 100);
+            guess = inputHandler.getIntInputInRangeWithExit("Enter your guess (1-100): ", 1, 100);
             attempts++;
 
                 if (guess == numberToGuess) {
@@ -46,7 +46,7 @@ public class GuessGame extends Game {
                     System.out.println("[TOO HIGH] Try again!");
                 }
             }
-            String again = inputHandler.getStringInput("Play another round? (y/n): "); // added this
+            String again = inputHandler.getStringInputWithExit("Play another round? (y/n): ");
             if(again.equalsIgnoreCase("n")){
                 playing = false;
             }

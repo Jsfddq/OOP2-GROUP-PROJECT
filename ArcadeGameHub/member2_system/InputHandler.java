@@ -45,4 +45,56 @@ public class InputHandler {
         }
         return scanner.nextLine();
     }
+
+    public boolean isExitCommand(String input) {
+        if (input == null) {
+            return false;
+        }
+        String trimmed = input.trim().toLowerCase();
+        return trimmed.equals("exit") || trimmed.equals("quit") || trimmed.equals("q");
+    }
+
+    public void checkForExit(String input) {
+        if (isExitCommand(input)) {
+            throw new GameExitException();
+        }
+    }
+
+    public String getStringInputWithExit(String prompt) {
+        if (!prompt.isEmpty()) {
+            System.out.print(prompt);
+        }
+        String line = scanner.nextLine();
+        checkForExit(line);
+        return line;
+    }
+
+    public int getIntInputWithExit(String prompt) {
+        int input = -1;
+        boolean isValid = false;
+
+        while (!isValid) {
+            System.out.print(prompt);
+            String line = scanner.nextLine().trim();
+            checkForExit(line);
+            try {
+                input = Integer.parseInt(line);
+                isValid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("??? Invalid input. Please enter a number or type 'exit' to leave.");
+            }
+        }
+        return input;
+    }
+
+    public int getIntInputInRangeWithExit(String prompt, int min, int max) {
+        int input;
+        do {
+            input = getIntInputWithExit(prompt);
+            if (input < min || input > max) {
+                System.out.println("??? Please enter a number between " + min + " and " + max + ".");
+            }
+        } while (input < min || input > max);
+        return input;
+    }
 }
