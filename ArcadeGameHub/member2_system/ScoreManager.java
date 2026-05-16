@@ -9,12 +9,12 @@ public class ScoreManager {
 
     public void addPoints(int points) {
         this.score += points;
-        System.out.println("Points Added: +" + points);
+        System.out.println("\nPoints Added: +" + points);
     }
 
     public void resetScore() {
         this.score = 0;
-        System.out.println("Score has been reset to 0");
+        System.out.println("\nScore has been reset to 0");
     }
 
      

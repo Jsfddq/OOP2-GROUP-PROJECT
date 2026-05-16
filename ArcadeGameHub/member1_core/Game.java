@@ -61,7 +61,7 @@ public abstract class Game implements Playable {
     private void endSequence() {
         System.out.println();
         System.out.print(NEON_RED);
-        typeText("Game finished!", 50);
+        typeText("\nGame finished!", 50);
         
         try {
             Thread.sleep(500);
@@ -69,7 +69,7 @@ public abstract class Game implements Playable {
             Thread.currentThread().interrupt();
         }
         
-        typeText("Leaving " + gameName + "... Returning to main menu.", 50);
+        typeText("\nLeaving " + gameName + "... Returning to main menu.", 50);
         System.out.print(RESET);
     }
 

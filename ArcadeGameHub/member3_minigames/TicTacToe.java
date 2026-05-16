@@ -7,6 +7,11 @@ import ArcadeGameHub.member4_output.Display;
 import java.util.Random;
 
 public class TicTacToe extends Game {
+
+    static final String NEON_BLUE   = "\u001B[38;5;45m";  
+    static final String NEON_RED    = "\u001B[38;5;196m"; 
+    static final String RESET       = "\u001B[0m";
+
     private char[] board;
     private InputHandler inputHandler;
     private ScoreManager scoreManager;
@@ -31,19 +36,30 @@ public class TicTacToe extends Game {
     public void play() {
         boolean playing = true;
 
-        System.out.println("\nChoose game mode:");
-        System.out.println("1. vs Computer");
-        System.out.println("2. Two Player");
+        System.out.print(NEON_BLUE);
+        typeText("\nChoose game mode:", 25);
+        System.out.print(RESET);
+        typeText("1. vs Computer", 20);
+        typeText("2. Two Player", 20);
+        System.out.println();
+        
+        System.out.print(NEON_BLUE);
         int mode = inputHandler.getIntInputInRangeWithExit("Enter choice (1-2): ", 1, 2);
+        System.out.print(RESET);
         vsComputer = (mode == 1);
         
         if (vsComputer) {
             player1Name = "You";
             player2Name = "Computer";
         } else {
-            System.out.print("Enter Player 1 name: ");
+            System.out.print(NEON_BLUE);
+            typeText("\nEnter Player 1 name: ", 20);
+            System.out.print(RESET);
             player1Name = inputHandler.getStringInputWithExit("");
-            System.out.print("Enter Player 2 name: ");
+            
+            System.out.print(NEON_RED);
+            typeText("Enter Player 2 name: ", 20);
+            System.out.print(RESET);
             player2Name = inputHandler.getStringInputWithExit("");
         }
 
@@ -57,17 +73,27 @@ public class TicTacToe extends Game {
                 printBoard();
                 
                 if (vsComputer && currentPlayer == 'O') {
-                    System.out.println("\nComputer's turn (O)...");
+                    System.out.print(NEON_RED);
+                    typeText("\nComputer's turn (O)...", 25);
+                    System.out.print(RESET);
+                    
                     int position = getComputerMove();
-                    System.out.println("Computer chooses position " + position);
+                    typeText("Computer chooses position " + position, 20);
                     makeMove(position, 'O');
                 } else {
                     String currentName = (currentPlayer == 'X') ? player1Name : player2Name;
-                    System.out.println("\n" + currentName + "'s turn (" + currentPlayer + ")");
+                    System.out.print((currentPlayer == 'X') ? NEON_BLUE : NEON_RED);
+                    typeText("\n" + currentName + "'s turn (" + currentPlayer + ")", 25);
+                    System.out.print(RESET);
+                    
+                    System.out.print((currentPlayer == 'X') ? NEON_BLUE : NEON_RED);
                     int position = inputHandler.getIntInputInRangeWithExit("Enter position (1-9): ", 1, 9);
+                    System.out.print(RESET);
                     
                     if (!isValidMove(position)) {
-                        System.out.println("Position already taken! Try again.");
+                        System.out.print(NEON_RED);
+                        typeText("Position already taken! Try again.", 20);
+                        System.out.print(RESET);
                         continue;
                     }
                     makeMove(position, currentPlayer);
@@ -79,27 +105,34 @@ public class TicTacToe extends Game {
                     printBoard();
                     if (vsComputer) {
                         if (currentPlayer == 'X') {
-                            System.out.println("\nCongratulations! You won!");
+                            System.out.print(NEON_BLUE);
+                            typeText("\nCongratulations! You won!", 25);
+                            System.out.print(RESET);
                             scoreManager.addPoints(20);
                         } else {
-                            System.out.println("\nComputer wins! Better luck next time!");
+                            System.out.print(NEON_RED);
+                            typeText("\nComputer wins! Better luck next time!", 25);
+                            System.out.print(RESET);
                         }
                     } else {
                         String winner = (currentPlayer == 'X') ? player1Name : player2Name;
-                        System.out.println("\n" + winner + " wins!");
+                        System.out.print((currentPlayer == 'X') ? NEON_BLUE : NEON_RED);
+                        typeText("\n" + winner + " wins!", 25);
+                        System.out.print(RESET);
                         scoreManager.addPoints(15);
                     }
                     gameWon = true;
                 } else if (moves == 9) {
                     printBoard();
-                    System.out.println("\nIt's a tie!");
+                    System.out.print(NEON_BLUE);
+                    typeText("\nIt's a tie!", 25);
+                    System.out.print(RESET);
                     scoreManager.addPoints(10);
                 } else {
                     currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
                 }
             }
 
-            // Input validation using try-catch for standard error handling
             String again = "";
             boolean validChoice = false;
             while (!validChoice) {
@@ -108,10 +141,10 @@ public class TicTacToe extends Game {
                     if (again.equalsIgnoreCase("y") || again.equalsIgnoreCase("n")) {
                         validChoice = true;
                     } else {
-                        System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
+                        typeText("\nInvalid input! Please enter 'y' for Yes or 'n' for No.", 20);
                     }
                 } catch (Exception e) {
-                    System.out.println("An error occurred reading your choice. Please try again.");
+                    typeText("\nAn error occurred reading your choice. Please try again.", 20);
                 }
             }
 
@@ -128,14 +161,20 @@ public class TicTacToe extends Game {
     
     private void printBoard() {
         System.out.println("\n     |     |");
-        System.out.printf("  %c  |  %c  |  %c%n", board[0], board[1], board[2]);
+        System.out.printf("  %s  |  %s  |  %s%n", formatCell(board[0]), formatCell(board[1]), formatCell(board[2]));
         System.out.println("_____|_____|_____");
         System.out.println("     |     |");
-        System.out.printf("  %c  |  %c  |  %c%n", board[3], board[4], board[5]);
+        System.out.printf("  %s  |  %s  |  %s%n", formatCell(board[3]), formatCell(board[4]), formatCell(board[5]));
         System.out.println("_____|_____|_____");
         System.out.println("     |     |");
-        System.out.printf("  %c  |  %c  |  %c%n", board[6], board[7], board[8]);
+        System.out.printf("  %s  |  %s  |  %s%n", formatCell(board[6]), formatCell(board[7]), formatCell(board[8]));
         System.out.println("     |     |");
+    }
+
+    private String formatCell(char cell) {
+        if (cell == 'X') return NEON_BLUE + "X" + RESET;
+        if (cell == 'O') return NEON_RED + "O" + RESET;
+        return String.valueOf(cell);
     }
     
     private void makeMove(int square, char mark) {
@@ -159,7 +198,6 @@ public class TicTacToe extends Game {
     }
     
     private int getComputerMove() {
-        // Win optimization check
         for (int i = 1; i <= 9; i++) {
             if (isValidMove(i)) {
                 makeMove(i, 'O');
@@ -170,7 +208,6 @@ public class TicTacToe extends Game {
                 undoMove(i);
             }
         }
-        // Blocking rule setup
         for (int i = 1; i <= 9; i++) {
             if (isValidMove(i)) {
                 makeMove(i, 'X');
@@ -198,21 +235,58 @@ public class TicTacToe extends Game {
 
     @Override
     public void showInstructions() {
-        System.out.println("\n=== TIC-TAC-TOE INSTRUCTIONS ===");
-        System.out.println("? Players take turns placing X and O");
-        System.out.println("? Enter a number (1-9) to place your mark");
-        System.out.println("? First to get 3 in a row wins!");
-        System.out.println("? Board positions:");
-        System.out.println("  1 | 2 | 3 ");
-        System.out.println("  ---------");
-        System.out.println("  4 | 5 | 6 ");
-        System.out.println("  ---------");
-        System.out.println("  7 | 8 | 9 ");
-        System.out.println("================================\n");
+        try {
+            Thread.sleep(600);
+            System.out.println(NEON_BLUE + "██  ██     ██████ ▄▄  ▄▄▄▄   ██████ ▄▄▄   ▄▄▄▄   ██████ ▄▄▄  ▄▄▄▄▄" + RESET);
+            Thread.sleep(80);
+            System.out.println(NEON_BLUE + "▀█████       ██   ██ ██▀▀▀ ▄▄▄ ██  ██▀██ ██▀▀▀ ▄▄▄ ██  ██▀██ ██▄▄" + RESET);
+            Thread.sleep(80);
+            System.out.println(NEON_BLUE + "    ██ ▄     ██   ██ ▀████     ██  ██▀██ ▀████     ██  ▀███▀ ██▄▄▄" + RESET);
+            Thread.sleep(400);
+            System.out.println();
+            
+            System.out.print(NEON_BLUE);
+            typeText("\nWELCOME TO TIC-TAC-TOE!", 30);
+            typeText("Outsmart your opponent and line up three marks to win the game.", 25);
+            System.out.print(RESET);
+            System.out.println();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.print(NEON_BLUE);
+        typeText("\n========== TIC-TAC-TOE MECHANICS & RULES ==========", 15);
+        System.out.print(RESET);
+
+        typeText("\nPlayers take turns placing X and O", 20);
+        typeText("Enter a number (1-9) to place your mark", 20);
+        typeText("First to get 3 in a row wins!", 20);
+        System.out.println();
+        
+        typeText("\tBoard positions:", 15);
+        typeText("\t1 | 2 | 3 ", 10);
+        typeText("\t ---------", 10);
+        typeText("\t4 | 5 | 6 ", 10);
+        typeText("\t ---------", 10);
+        typeText("\t7 | 8 | 9 ", 10);
+        System.out.println();
+        typeText("You earn points based on the outcome:", 20);
+        typeText("- Win against Computer: 20 points", 20);
+        typeText("- Win against Player: 15 points", 20);
+        typeText("- Tie: 10 points", 20);
+        System.out.println();
+        
+        System.out.print(NEON_BLUE);
+        typeText("===================================================", 15);
+        System.out.print(RESET);
+        
+        
     }
 
     @Override
     public void endGame() {
-        System.out.println("Thanks for playing Tic-Tac-Toe!");
+        System.out.print(NEON_BLUE);
+        typeText("\nThanks for playing Tic-Tac-Toe!", 30);
+        System.out.print(RESET);
     }
 }

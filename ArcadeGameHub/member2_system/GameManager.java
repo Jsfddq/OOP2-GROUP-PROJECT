@@ -138,7 +138,7 @@ public class GameManager {
             case 6: playMinefield();   break;
             case 7: exitGame();        break;
             default:
-                System.out.println("Invalid choice. Please try again.");
+                System.out.println("\nInvalid choice. Please try again.");
                 break;
         }
     }
@@ -181,6 +181,9 @@ public class GameManager {
 
     private void askPlayAgain() {
         String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
+        System.out.println();
+         System.out.println();
+          System.out.println();
         if (choice.equalsIgnoreCase("n")) {
             
         } else {

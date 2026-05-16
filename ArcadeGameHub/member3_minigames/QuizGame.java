@@ -181,20 +181,23 @@ public class QuizGame extends Game {
 }
         
         System.out.print(NEON_AMBER);
-        typeText("\nWELCOME TO THE QUIZ GAME", 30);
+        typeText("\nWELCOME TO THE QUIZ GAME!", 30);
         typeText("Test your brain with questions and see how high you can score.", 25);
-        typeText("\n======POINT SCORING GUIDE======", 15);
+        typeText("\n======= POINT SCORING GUIDE =======", 15);
         System.out.print(RESET);
         
-        typeText("Easy = 1 point", 20);
+        typeText("\nEasy = 1 point", 20);
         typeText("Medium = 2 points", 20);
         typeText("Hard = 3 points", 20);
         typeText("Bonus = 7 points (Riddle)", 20);
-        typeText("Answer using A, B, C, or D", 20);
+        System.out.print(NEON_AMBER);
+        typeText("\n==================================", 15);
+        typeText("\nAnswer using A, B, C, or D", 20);
+        System.out.print(RESET);
     }
 
     @Override
     public void endGame() {
-        typeText("Thanks for playing the Quiz Game!", 30);
+        typeText("\nThanks for playing the Quiz Game!", 30);
     }
 }

@@ -7,6 +7,10 @@ import ArcadeGameHub.member4_output.Display;
 import java.util.Random;
 
 public class Minefield extends Game {
+
+    static final String NEON_RED = "\u001B[38;5;196m";
+    static final String RESET    = "\u001B[0m";
+
     private boolean[] mines;
     private boolean[] uncovered;
     private int gridSize;
@@ -54,70 +58,83 @@ public class Minefield extends Game {
         int totalRounds = 0;
         boolean playing = true;
 
-        while(playing){
-        System.out.println("\nWelcome to Minefield!");
-        initializeField();
-        int uncoveredCount = 0;
-        boolean gameOver = false;
-        totalRounds++;
-
-        while (!gameOver && uncoveredCount < safeTiles) {
-            displayField();
-            int position = inputHandler.getIntInputInRangeWithExit("\nSelect a tile to reveal (1-25): ", 1, 25) - 1;
-            
-            if (uncovered[position]) {
-                System.out.println("Tile already uncovered!");
-                continue;
-            }
-            
-            if (mines[position]) {
-                displayField(true);
-                System.out.println("\nBOOM! You hit a mine!");
-                gameOver = true;
-            } else {
-                uncovered[position] = true;
-                uncoveredCount++;
-                int nearbyMines = countNearbyMines(position);
-                
-                if (nearbyMines > 0) {
-                    System.out.println(nearbyMines + " mine(s) nearby! +2 points");
-                    scoreManager.addPoints(2);
-                } else {
-                    System.out.println("Safe tile! +5 points!");
-                    scoreManager.addPoints(5);
-                    uncoveredCount = autoUncoverSafe(position, uncoveredCount);
-                }
-            }
-        }
-        
-        
-        if (uncoveredCount == safeTiles && !gameOver) {
-            displayField(true);
-            System.out.println("\nVICTORY! You cleared all safe tiles!");
-            System.out.println("Safe tiles cleared: " + uncoveredCount + "/" + safeTiles);
-            scoreManager.addPoints(50);
-        } else if (gameOver) {
-            System.out.println("\nGAME OVER!");
-            System.out.println("You cleared " + uncoveredCount + "/" + safeTiles + " safe tiles.");
-        }
-        String again = "";
-        boolean validChoice = false;
-
-        while(!validChoice){
+        while (playing) {
             try {
-                again = inputHandler.getStringInput("\nPlay another round? (y/n): ");
-                if(again.equalsIgnoreCase("y") || again.equalsIgnoreCase("n")){
-                    validChoice = true;
-                }else{
-                    System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
+                System.out.println(NEON_RED + "\nWelcome to Minefield!" + RESET);
+                Thread.sleep(400);
+                initializeField();
+                int uncoveredCount = 0;
+                boolean gameOver = false;
+                totalRounds++;
+
+                while (!gameOver && uncoveredCount < safeTiles) {
+                    displayField();
+                    int position = inputHandler.getIntInputInRangeWithExit("\nSelect a tile to reveal (1-25): ", 1, 25) - 1;
+                    
+                    if (uncovered[position]) {
+                        Thread.sleep(200);
+                        System.out.println(NEON_RED + "\nTile already uncovered!" + RESET);
+                        continue;
+                    }
+                    
+                    Thread.sleep(300);
+                    if (mines[position]) {
+                        displayField(true);
+                        Thread.sleep(400);
+                        System.out.println(NEON_RED + "\nBOOM! You hit a mine!" + RESET);
+                        gameOver = true;
+                    } else {
+                        uncovered[position] = true;
+                        uncoveredCount++;
+                        int nearbyMines = countNearbyMines(position);
+                        
+                        if (nearbyMines > 0) {
+                            System.out.println(NEON_RED + "\n" + nearbyMines + " mine(s) nearby! +2 points" + RESET);
+                            scoreManager.addPoints(2);
+                        } else {
+                            System.out.println(NEON_RED + "\nSafe tile! +5 points!" + RESET);
+                            scoreManager.addPoints(5);
+                            uncoveredCount = autoUncoverSafe(position, uncoveredCount);
+                        }
+                    }
                 }
-            } catch (Exception e) {
-                System.out.println("An error occured reading your choice. Please try again.");
-            }
-        }
-            if (again.equalsIgnoreCase("n")) {
-                playing = false;
-                System.out.println("\n???? You won " + playerWins + " out of " + totalRounds + " round(s)! Great job!");
+                
+                Thread.sleep(500);
+                if (uncoveredCount == safeTiles && !gameOver) {
+                    playerWins++;
+                    displayField(true);
+                    Thread.sleep(400);
+                    System.out.println(NEON_RED + "\nVICTORY! You cleared all safe tiles!" + RESET);
+                    System.out.println(NEON_RED + "Safe tiles cleared: " + uncoveredCount + "/" + safeTiles + RESET);
+                    scoreManager.addPoints(50);
+                } else if (gameOver) {
+                    System.out.println(NEON_RED + "\nGAME OVER!" + RESET);
+                    System.out.println(NEON_RED + "You cleared " + uncoveredCount + "/" + safeTiles + " safe tiles." + RESET);
+                }
+
+                String again = "";
+                boolean validChoice = false;
+
+                while (!validChoice) {
+                    try {
+                        again = inputHandler.getStringInput("\nPlay another round? (y/n): ");
+                        if (again.equalsIgnoreCase("y") || again.equalsIgnoreCase("n")) {
+                            validChoice = true;
+                        } else {
+                            System.out.println(NEON_RED + "\nInvalid input! Please enter 'y' for Yes or 'n' for No." + RESET);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(NEON_RED + "\nAn error occurred reading your choice. Please try again." + RESET);
+                    }
+                }
+
+                if (again.equalsIgnoreCase("n")) {
+                    playing = false;
+                    Thread.sleep(400);
+                    System.out.println(NEON_RED + "\nYou won " + playerWins + " out of " + totalRounds + " round(s)! Great job!\n" + RESET);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
         endGame();
@@ -172,44 +189,74 @@ public class Minefield extends Game {
     }
     
     private void displayField(boolean showMines) {
-        System.out.println("\n+-------------------+");
-        System.out.println("|    MINEFIELD      |");
-        System.out.println("+-------------------+");
-        System.out.print("      1   2   3   4   5\n");
-        
-        for (int i = 0; i < gridSize; i++) {
-            System.out.print("  " + (i + 1) + "   ");
-            for (int j = 0; j < gridSize; j++) {
-                int index = i * gridSize + j;
-                if (uncovered[index]) {
-                    int mines = countNearbyMines(index);
-                    if (mines > 0) {
-                        System.out.print(" " + mines + "  ");
+        try {
+            System.out.println(NEON_RED + "\n╔═════════════════════════════╗"); Thread.sleep(40);
+            System.out.println("║          MINEFIELD          ║"); Thread.sleep(40);
+            System.out.println("╠═════════════════════════════╣" + RESET); Thread.sleep(40);
+            
+            for (int i = 0; i < gridSize; i++) {
+                System.out.print(NEON_RED + "║    " + RESET);
+                for (int j = 0; j < gridSize; j++) {
+                    int index = i * gridSize + j;
+                    if (uncovered[index]) {
+                        int nearby = countNearbyMines(index);
+                        if (nearby > 0) {
+                            System.out.print(nearby + "    ");
+                        } else {
+                            System.out.print(".    ");
+                        }
+                    } else if (showMines && mines[index]) {
+                        System.out.print(NEON_RED + "X    " + RESET);
                     } else {
-                        System.out.print(" .  ");
+                        System.out.print("?    ");
                     }
-                } else if (showMines && mines[index]) {
-                    System.out.print(" X  ");
-                } else {
-                    System.out.print(" ?  ");
                 }
+                System.out.println(NEON_RED + "║" + RESET);
+                Thread.sleep(40);
             }
-            System.out.println();
+            System.out.println(NEON_RED + "╚═════════════════════════════╝" + RESET);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
-        System.out.println("+-------------------+");
     }
 
     @Override
     public void showInstructions() {
-        System.out.println("\n=== MINEFIELD INSTRUCTIONS ===");
-        System.out.println("? The field is 5x5 with 5 hidden mines");
-        System.out.println("? Reveal tiles by entering their number (1-25)");
-        System.out.println("? Numbers show how many mines are adjacent");
-        System.out.println("? Clear all 20 safe tiles to win!");
-        System.out.println("================================\n");
+        try {
+            Thread.sleep(600);
+            System.out.println(NEON_RED + "▄██▀▀▀     ██▄  ▄██ ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ▄▄▄▄▄ ▄▄ ▄▄▄▄▄ ▄▄    ▄▄▄▄" + RESET);
+            Thread.sleep(80);
+            System.out.println(NEON_RED + "██▄▄▄      ██ ▀▀ ██ ██ ███▄██ ██▄▄  ██▄▄  ██ ██▄▄  ██    ██▀██" + RESET);
+            Thread.sleep(80);
+            System.out.println(NEON_RED + "▀█▄▄█▀ ▄   ██    ██ ██ ██ ▀██ ██▄▄▄ ██    ██ ██▄▄▄ ██▄▄▄ ████▀" + RESET);
+            Thread.sleep(400);
+            System.out.println();
+            System.out.println(NEON_RED + "\nWELCOME TO MINEFIELD!" + RESET);
+            System.out.println(NEON_RED + "Carefully navigate the grid and avoid hidden mines to survive the challenge." + RESET);
+            System.out.println();
+
+            System.out.println(NEON_RED + "\n========== MINEFIELD MECHANICS & RULES ==========" + RESET);
+            Thread.sleep(100);
+            System.out.println("\n1. The field is a 5x5 grid containing 5 hidden mines.");
+            Thread.sleep(100);
+            System.out.println("2. Reveal a safe tile to uncover clues about adjacent cells.");
+            Thread.sleep(100);
+            System.out.println("3. Number indicators show exactly how many mines border that slot.");
+            Thread.sleep(100);
+            System.out.println("4. Successfully sweep all 20 safe positions to claim victory!");
+            System.out.println(NEON_RED + "\n===========================================" + RESET);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
+
     @Override
     public void endGame() {
-        System.out.println("Thanks for playing Minefield!");
+        try {
+            Thread.sleep(200);
+            System.out.println(NEON_RED + "\nThanks for playing Minefield!\n" + RESET);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

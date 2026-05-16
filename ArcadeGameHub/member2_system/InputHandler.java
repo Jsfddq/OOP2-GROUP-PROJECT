@@ -21,7 +21,7 @@ public class InputHandler {
                 scanner.nextLine(); // Clear buffer
                 isValid = true;
             } catch (InputMismatchException e) {
-                System.out.println("??? Invalid input. Please enter a number.");
+                System.out.println("\nInvalid input!Please enter a number.");
                 scanner.nextLine(); // Clear invalid input
             }
         }
@@ -33,7 +33,7 @@ public class InputHandler {
         do {
             input = getIntInput(prompt);
             if (input < min || input > max) {
-                System.out.println("??? Please enter a number between " + min + " and " + max + ".");
+                System.out.println("\nPlease enter a number between " + min + " and " + max + ".");
             }
         } while (input < min || input > max);
         return input;
@@ -81,7 +81,7 @@ public class InputHandler {
                 input = Integer.parseInt(line);
                 isValid = true;
             } catch (NumberFormatException e) {
-                System.out.println("??? Invalid input. Please enter a number or type 'exit' to leave.");
+                System.out.println("\nInvalid input! Please enter a number or type 'exit' to leave.");
             }
         }
         return input;
@@ -92,7 +92,7 @@ public class InputHandler {
         do {
             input = getIntInputWithExit(prompt);
             if (input < min || input > max) {
-                System.out.println("??? Please enter a number between " + min + " and " + max + ".");
+                System.out.println("\nPlease enter a number between " + min + " and " + max + ".");
             }
         } while (input < min || input > max);
         return input;
