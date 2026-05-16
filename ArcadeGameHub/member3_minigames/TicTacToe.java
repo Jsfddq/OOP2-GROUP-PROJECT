@@ -1,10 +1,10 @@
 package ArcadeGameHub.member3_minigames;
 
-import java.util.Random;
 import ArcadeGameHub.member1_core.Game;
 import ArcadeGameHub.member2_system.InputHandler;
 import ArcadeGameHub.member2_system.ScoreManager;
 import ArcadeGameHub.member4_output.Display;
+import java.util.Random;
 
 public class TicTacToe extends Game {
     private char[] board;
@@ -29,6 +29,8 @@ public class TicTacToe extends Game {
 
     @Override
     public void play() {
+        boolean playing = true;
+
         System.out.println("\nChoose game mode:");
         System.out.println("1. vs Computer");
         System.out.println("2. Two Player");
@@ -44,58 +46,79 @@ public class TicTacToe extends Game {
             System.out.print("Enter Player 2 name: ");
             player2Name = inputHandler.getStringInputWithExit("");
         }
-        
-        resetBoard();
-        currentPlayer = 'X';
-        boolean gameWon = false;
-        int moves = 0;
-        
-        while (!gameWon && moves < 9) {
-            printBoard();
+
+        while (playing) {
+            resetBoard();
+            currentPlayer = 'X';
+            boolean gameWon = false;
+            int moves = 0;
             
-            if (vsComputer && currentPlayer == 'O') {
-                System.out.println("\nComputer's turn (O)...");
-                int position = getComputerMove();
-                System.out.println("Computer chooses position " + position);
-                makeMove(position, 'O');
-            } else {
-                String currentName = (currentPlayer == 'X') ? player1Name : player2Name;
-                System.out.println("\n" + currentName + "'s turn (" + currentPlayer + ")");
-                int position = inputHandler.getIntInputInRangeWithExit("Enter position (1-9): ", 1, 9);
+            while (!gameWon && moves < 9) {
+                printBoard();
                 
-                if (!isValidMove(position)) {
-                    System.out.println("Position already taken! Try again.");
-                    continue;
-                }
-                makeMove(position, currentPlayer);
-            }
-            
-            moves++;
-            
-            if (checkWin()) {
-                printBoard();
-                if (vsComputer) {
-                    if (currentPlayer == 'X') {
-                        System.out.println("\nCongratulations! You won!");
-                        scoreManager.addPoints(20);
-                    } else {
-                        System.out.println("\nComputer wins! Better luck next time!");
-                    }
+                if (vsComputer && currentPlayer == 'O') {
+                    System.out.println("\nComputer's turn (O)...");
+                    int position = getComputerMove();
+                    System.out.println("Computer chooses position " + position);
+                    makeMove(position, 'O');
                 } else {
-                    String winner = (currentPlayer == 'X') ? player1Name : player2Name;
-                    System.out.println("\n" + winner + " wins!");
-                    scoreManager.addPoints(15);
+                    String currentName = (currentPlayer == 'X') ? player1Name : player2Name;
+                    System.out.println("\n" + currentName + "'s turn (" + currentPlayer + ")");
+                    int position = inputHandler.getIntInputInRangeWithExit("Enter position (1-9): ", 1, 9);
+                    
+                    if (!isValidMove(position)) {
+                        System.out.println("Position already taken! Try again.");
+                        continue;
+                    }
+                    makeMove(position, currentPlayer);
                 }
-                gameWon = true;
-            } else if (moves == 9) {
-                printBoard();
-                System.out.println("\nIt's a tie!");
-                scoreManager.addPoints(10);
-            } else {
-                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+                
+                moves++;
+                
+                if (checkWin()) {
+                    printBoard();
+                    if (vsComputer) {
+                        if (currentPlayer == 'X') {
+                            System.out.println("\nCongratulations! You won!");
+                            scoreManager.addPoints(20);
+                        } else {
+                            System.out.println("\nComputer wins! Better luck next time!");
+                        }
+                    } else {
+                        String winner = (currentPlayer == 'X') ? player1Name : player2Name;
+                        System.out.println("\n" + winner + " wins!");
+                        scoreManager.addPoints(15);
+                    }
+                    gameWon = true;
+                } else if (moves == 9) {
+                    printBoard();
+                    System.out.println("\nIt's a tie!");
+                    scoreManager.addPoints(10);
+                } else {
+                    currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+                }
+            }
+
+            // Input validation using try-catch for standard error handling
+            String again = "";
+            boolean validChoice = false;
+            while (!validChoice) {
+                try {
+                    again = inputHandler.getStringInputWithExit("\nPlay another round? (y/n): ");
+                    if (again.equalsIgnoreCase("y") || again.equalsIgnoreCase("n")) {
+                        validChoice = true;
+                    } else {
+                        System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred reading your choice. Please try again.");
+                }
+            }
+
+            if (again.equalsIgnoreCase("n")) {
+                playing = false;
             }
         }
-        
         endGame();
     }
     
@@ -136,6 +159,7 @@ public class TicTacToe extends Game {
     }
     
     private int getComputerMove() {
+        // Win optimization check
         for (int i = 1; i <= 9; i++) {
             if (isValidMove(i)) {
                 makeMove(i, 'O');
@@ -146,6 +170,7 @@ public class TicTacToe extends Game {
                 undoMove(i);
             }
         }
+        // Blocking rule setup
         for (int i = 1; i <= 9; i++) {
             if (isValidMove(i)) {
                 makeMove(i, 'X');
@@ -191,4 +216,3 @@ public class TicTacToe extends Game {
         System.out.println("Thanks for playing Tic-Tac-Toe!");
     }
 }
-

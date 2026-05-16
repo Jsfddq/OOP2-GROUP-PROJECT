@@ -50,12 +50,17 @@ public class Minefield extends Game {
 
     @Override
     public void play() {
+        int playerWins = 0;
+        int totalRounds = 0;
+        boolean playing = true;
+
+        while(playing){
         System.out.println("\nWelcome to Minefield!");
         initializeField();
-        String playAgain;
         int uncoveredCount = 0;
         boolean gameOver = false;
-        
+        totalRounds++;
+
         while (!gameOver && uncoveredCount < safeTiles) {
             displayField();
             int position = inputHandler.getIntInputInRangeWithExit("\nSelect a tile to reveal (1-25): ", 1, 25) - 1;
@@ -94,6 +99,26 @@ public class Minefield extends Game {
         } else if (gameOver) {
             System.out.println("\nGAME OVER!");
             System.out.println("You cleared " + uncoveredCount + "/" + safeTiles + " safe tiles.");
+        }
+        String again = "";
+        boolean validChoice = false;
+
+        while(!validChoice){
+            try {
+                again = inputHandler.getStringInput("\nPlay another round? (y/n): ");
+                if(again.equalsIgnoreCase("y") || again.equalsIgnoreCase("n")){
+                    validChoice = true;
+                }else{
+                    System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
+                }
+            } catch (Exception e) {
+                System.out.println("An error occured reading your choice. Please try again.");
+            }
+        }
+            if (again.equalsIgnoreCase("n")) {
+                playing = false;
+                System.out.println("\n???? You won " + playerWins + " out of " + totalRounds + " round(s)! Great job!");
+            }
         }
         endGame();
     }

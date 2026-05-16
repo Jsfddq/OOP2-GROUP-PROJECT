@@ -46,11 +46,25 @@ public class GuessGame extends Game {
                     System.out.println("[TOO HIGH] Try again!");
                 }
             }
-            String again = inputHandler.getStringInputWithExit("Play another round? (y/n): ");
+            String again = "";
+            boolean validChoice = false;
+            while(!validChoice){
+                try {
+                    again = inputHandler.getStringInput("Play another round? (y/n): ");
+                    if(again.equalsIgnoreCase("n") || again.equalsIgnoreCase("y")){
+                        validChoice = true;
+                    }else{
+                        System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred reading your choice. Please try again.");
+                }
+            }
             if(again.equalsIgnoreCase("n")){
                 playing = false;
             }
         }
+        endGame();
     }
 
     @Override

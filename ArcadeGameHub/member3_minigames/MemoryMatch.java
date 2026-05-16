@@ -1,10 +1,10 @@
 package ArcadeGameHub.member3_minigames;
 
-import java.util.Random;
 import ArcadeGameHub.member1_core.Game;
 import ArcadeGameHub.member2_system.InputHandler;
 import ArcadeGameHub.member2_system.ScoreManager;
 import ArcadeGameHub.member4_output.Display;
+import java.util.Random;
 
 public class MemoryMatch extends Game {
     private String[] board;
@@ -58,70 +58,91 @@ public class MemoryMatch extends Game {
 
     @Override
     public void play() {
+        boolean playing = true;
+
+        while(playing){
         System.out.println("\n???? Welcome to Memory Match!");
         initializeBoard();
-        
-        while (pairsFound < totalPairs) {
-            printBoard();
-            
-            int firstCard = inputHandler.getIntInputInRangeWithExit("\nSelect first card (1-16): ", 1, 16) - 1;
-            
-            if (revealed[firstCard]) {
-                System.out.println("??? Card already revealed!");
-                continue;
-            }
-            
-            revealed[firstCard] = true;
-            printBoard();
-            
-            int secondCard = inputHandler.getIntInputInRangeWithExit("\nSelect second card (1-16): ", 1, 16) - 1;
-            
-            if (secondCard == firstCard) {
-                System.out.println("??? Can't choose the same card!");
-                revealed[firstCard] = false;
-                continue;
-            }
-            
-            if (revealed[secondCard]) {
-                System.out.println("??? Card already revealed!");
-                revealed[firstCard] = false;
-                continue;
-            }
-            
-            revealed[secondCard] = true;
-            printBoard();
-            moves++;
-            
-            if (board[firstCard].equals(board[secondCard])) {
-                System.out.println("\n??? MATCH! +5 points ???");
-                pairsFound++;
-                scoreManager.addPoints(5);
-            } else {
-                System.out.println("\n??? No match! ???");
-                revealed[firstCard] = false;
-                revealed[secondCard] = false;
+
+            while (pairsFound < totalPairs) {
+                printBoard();
                 
+                int firstCard = inputHandler.getIntInputInRangeWithExit("\nSelect first card (1-16): ", 1, 16) - 1;
+                
+                if (revealed[firstCard]) {
+                    System.out.println("??? Card already revealed!");
+                    continue;
+                }
+                
+                revealed[firstCard] = true;
+                printBoard();
+                
+                int secondCard = inputHandler.getIntInputInRangeWithExit("\nSelect second card (1-16): ", 1, 16) - 1;
+                
+                if (secondCard == firstCard) {
+                    System.out.println("??? Can't choose the same card!");
+                    revealed[firstCard] = false;
+                    continue;
+                }
+                
+                if (revealed[secondCard]) {
+                    System.out.println("??? Card already revealed!");
+                    revealed[firstCard] = false;
+                    continue;
+                }
+                
+                revealed[secondCard] = true;
+                printBoard();
+                moves++;
+                
+                if (board[firstCard].equals(board[secondCard])) {
+                    System.out.println("\n??? MATCH! +5 points ???");
+                    pairsFound++;
+                    scoreManager.addPoints(5);
+                } else {
+                    System.out.println("\n??? No match! ???");
+                    revealed[firstCard] = false;
+                    revealed[secondCard] = false;
+                    
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                
+                System.out.println("\nPairs found: " + pairsFound + "/" + totalPairs);
+                System.out.println("Moves made: " + moves);
+            }
+        
+            printBoard();
+            System.out.println("\n???? CONGRATULATIONS! You found all " + totalPairs + " pairs! ????");
+            System.out.println("Total moves: " + moves);
+            
+            int bonus = Math.max(0, 30 - moves);
+            if (bonus > 0) {
+                System.out.println("Bonus points for efficiency: +" + bonus);
+                scoreManager.addPoints(bonus);
+            }
+            
+            String again = "";
+            boolean validChoice = false;
+            while(!validChoice){
                 try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    again = inputHandler.getStringInput("Play another round? (y/n): ");
+                    if(again.equalsIgnoreCase("n") || again.equalsIgnoreCase("y")){
+                        validChoice = true;
+                    }else{
+                        System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred reading your choice. Please try again.");
                 }
             }
-            
-            System.out.println("\nPairs found: " + pairsFound + "/" + totalPairs);
-            System.out.println("Moves made: " + moves);
+            if(again.equalsIgnoreCase("n")){
+                playing = false;
+            }
         }
-        
-        printBoard();
-        System.out.println("\n???? CONGRATULATIONS! You found all " + totalPairs + " pairs! ????");
-        System.out.println("Total moves: " + moves);
-        
-        int bonus = Math.max(0, 30 - moves);
-        if (bonus > 0) {
-            System.out.println("Bonus points for efficiency: +" + bonus);
-            scoreManager.addPoints(bonus);
-        }
-        
         endGame();
     }
     

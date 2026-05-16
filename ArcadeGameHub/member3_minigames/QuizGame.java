@@ -19,7 +19,10 @@ public class QuizGame extends Game {
 
     @Override
     public void play() {
-        String[] questions = {
+        boolean playing = true;
+
+        while(playing){
+            String[] questions = {
             "What is the index of '30' in the array {10, 20, 30, 40}?",
             "What is the result of 17 % 5?",
             "What is the result of 189 % 6?",
@@ -56,6 +59,25 @@ public class QuizGame extends Game {
         } else {
             System.out.println("???? Keep studying Java! You'll get better!");
         }
+        String again = "";
+            boolean validChoice = false;
+            while(!validChoice){
+                try {
+                    again = inputHandler.getStringInput("Play another round? (y/n): ");
+                    if(again.equalsIgnoreCase("n") || again.equalsIgnoreCase("y")){
+                        validChoice = true;
+                    }else{
+                        System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred reading your choice. Please try again.");
+                }
+            }
+            if(again.equalsIgnoreCase("n")){
+                playing = false;
+            }
+        }
+        endGame();
     }
 
     @Override

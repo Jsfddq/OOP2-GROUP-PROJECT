@@ -125,9 +125,24 @@ public class GameManager {
     }
 
     private void askPlayAgain() {
-        String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
+        String choice = "";
+        boolean validChoice = false;
+        while(!validChoice){
+            try {
+                 choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
+                if(choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("n")){
+                    validChoice = true;
+                }else{
+                    System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
+                }
+            } catch (Exception e) {
+                System.out.println("An error occurred reading your choice. Please try again.");
+            }
+        }
         if (choice.equalsIgnoreCase("n")) {
             // Return to main menu
+        }else{
+
         }
     }
 

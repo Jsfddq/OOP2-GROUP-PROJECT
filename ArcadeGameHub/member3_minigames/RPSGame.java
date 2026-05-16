@@ -1,10 +1,10 @@
 package ArcadeGameHub.member3_minigames;
 
-import java.util.Random;
 import ArcadeGameHub.member1_core.Game;
 import ArcadeGameHub.member2_system.InputHandler;
 import ArcadeGameHub.member2_system.ScoreManager;
 import ArcadeGameHub.member4_output.Display;
+import java.util.Random;
 
 public class RPSGame extends Game {
     private InputHandler inputHandler;
@@ -63,8 +63,22 @@ public class RPSGame extends Game {
             // Show score
             System.out.println("\n???? Score: You " + playerWins + " - " + computerWins + " Computer");
             
-            // Ask to play another round
-            String again = inputHandler.getStringInputWithExit("Play another round? (y/n): ");
+            // Try-catch loop validation for the play-again sequence
+            String again = "";
+            boolean validChoice = false;
+            while (!validChoice) {
+                try {
+                    again = inputHandler.getStringInputWithExit("Play another round? (y/n): ");
+                    if (again.equalsIgnoreCase("y") || again.equalsIgnoreCase("n")) {
+                        validChoice = true;
+                    } else {
+                        System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred reading your choice. Please try again.");
+                }
+            }
+
             if (again.equalsIgnoreCase("n")) {
                 playing = false;
                 if (playerWins > computerWins) {
