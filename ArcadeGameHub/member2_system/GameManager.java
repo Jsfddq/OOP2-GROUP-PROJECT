@@ -188,7 +188,7 @@ private void askPlayAgain() {
             if (choice.equalsIgnoreCase("y")){
                 return; // Go back to main menu (continue playing)
             } else if (choice.equalsIgnoreCase("n")) {
-                isRunning = false; // Stop the loop if they don't want to play again
+                exitGame();
                 return;
             }else{
                 System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
