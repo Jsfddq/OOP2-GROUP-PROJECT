@@ -180,12 +180,22 @@ public class GameManager {
     }
 
 private void askPlayAgain() {
-    String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
-    System.out.println();
-    System.out.println();
-    System.out.println();
-    if (choice.equalsIgnoreCase("n")) {
-        isRunning = false; // Stop the loop if they don't want to play again
+    while(true){
+        try{
+            String choice = inputHandler.getStringInput("\nPlay another game? (y/n): ");
+            System.out.println();
+    
+            if (choice.equalsIgnoreCase("y")){
+                return; // Go back to main menu (continue playing)
+            } else if (choice.equalsIgnoreCase("n")) {
+                exitGame();
+                return;
+            }else{
+                System.out.println("Invalid input! Please enter 'y' for Yes or 'n' for No.");
+            }
+        }catch (Exception e){
+            System.out.println("Invalid input. Please try again.");
+        }
     }
 }
     private void exitGame() {
