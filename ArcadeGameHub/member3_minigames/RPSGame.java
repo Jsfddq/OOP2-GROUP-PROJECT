@@ -13,6 +13,8 @@ public class RPSGame extends Game {
     private Random random;
     private String[] options;
 
+    private static final String NEON_LIME = "\u001B[38;5;118m"; 
+
     public RPSGame(InputHandler inputHandler, ScoreManager scoreManager, Display display) {
         super("Rock Paper Scissors");
         this.inputHandler = inputHandler;
@@ -30,40 +32,34 @@ public class RPSGame extends Game {
         int computerWins = 0;
 
         while (playing) {
-            System.out.println("\n???? ROUND " + round + " ????");
+            System.out.println(NEON_LIME + "\nROUND " + round + " - Make your move!" + RESET + "\n");
             
-            // Get player choice
             System.out.println("Choose:");
             System.out.println("0 - Rock");
             System.out.println("1 - Paper");
             System.out.println("2 - Scissors");
             int playerChoice = inputHandler.getIntInputInRangeWithExit("Your choice (0-2): ", 0, 2);
             
-            // Get computer choice
             int computerChoice = random.nextInt(3);
             
-            // Display choices
             System.out.println("You chose: " + options[playerChoice]);
             System.out.println("Computer chose: " + options[computerChoice]);
             
-            // Determine winner
             if (playerChoice == computerChoice) {
-                System.out.println("???? It's a tie!");
+                System.out.println("It's a tie!");
             } else if ((playerChoice == 0 && computerChoice == 2) ||
                        (playerChoice == 1 && computerChoice == 0) ||
                        (playerChoice == 2 && computerChoice == 1)) {
-                System.out.println("???? You win this round!");
+                System.out.println("You win this round!");
                 playerWins++;
                 scoreManager.addPoints(5);
             } else {
-                System.out.println("???? Computer wins this round!");
+                System.out.println("Computer wins this round!");
                 computerWins++;
             }
             
-            // Show score
-            System.out.println("\n???? Score: You " + playerWins + " - " + computerWins + " Computer");
+            System.out.println("\nScore: You " + playerWins + " - " + computerWins + " Computer");
             
-            // Try-catch loop validation for the play-again sequence
             String again = "";
             boolean validChoice = false;
             while (!validChoice) {
@@ -82,11 +78,11 @@ public class RPSGame extends Game {
             if (again.equalsIgnoreCase("n")) {
                 playing = false;
                 if (playerWins > computerWins) {
-                    System.out.println("???? You won the match! Great job!");
+                    System.out.println("You won the match! Great job!");
                 } else if (computerWins > playerWins) {
-                    System.out.println("???? Computer won the match! Better luck next time!");
+                    System.out.println("Computer won the match! Better luck next time!");
                 } else {
-                    System.out.println("???? The match is a tie!");
+                    System.out.println("The match is a tie!");
                 }
             }
             round++;
@@ -95,14 +91,14 @@ public class RPSGame extends Game {
 
     @Override
     public void showInstructions() {
-        System.out.println("\n=== ROCK PAPER SCISSORS INSTRUCTIONS ===");
-        System.out.println("??? Choose: Rock (0), Paper (1), or Scissors (2)");
-        System.out.println("??? Rules:");
-        System.out.println("  ??? Rock beats Scissors");
-        System.out.println("  ??? Paper beats Rock");
-        System.out.println("  ??? Scissors beats Paper");
-        System.out.println("??? Win a round to earn 5 points!");
-        System.out.println("========================================\n");
+        System.out.println(NEON_LIME + "\n=== ROCK PAPER SCISSORS INSTRUCTIONS ===" + RESET);
+        System.out.println("Choose: Rock (0), Paper (1), or Scissors (2)");
+        System.out.println("\nRules:");
+        System.out.println("Rock beats Scissors");
+        System.out.println("Paper beats Rock");
+        System.out.println("Scissors beats Paper");
+        System.out.println("Win a round to earn 5 points!");
+        System.out.println(NEON_LIME + "========================================\n" + RESET);
     }
 
     @Override
