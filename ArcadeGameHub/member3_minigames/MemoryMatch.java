@@ -178,18 +178,18 @@ public class MemoryMatch extends Game {
         System.out.print(RESET);
         
         for (int i = 0; i < 4; i++) {
-            System.out.print(NEON_PINK + "║  " + RESET);
+            System.out.print(NEON_PINK + "║" + RESET);
             for (int j = 0; j < 4; j++) {
                 int index = i * 4 + j;
                 if (revealed[index]) {
                     // Prints the color-coded letter inside a matching 6-character text column
-                    System.out.printf("%s" + board[index] + "%s      ", NEON_PINK, RESET);
+                    System.out.printf(NEON_PINK + "   %s  " + RESET, board[index]);
                 } else {
                     // Prints unrevealed numbers formatted directly to a clean 6-character width
-                    System.out.printf("%-6d", index + 1);
+                    System.out.printf("   %2d ", index + 1);
                 }
             }
-            System.out.println(NEON_PINK + "║" + RESET);
+            System.out.println(NEON_PINK + "  ║" + RESET);
         }
         
         System.out.print(NEON_PINK);
