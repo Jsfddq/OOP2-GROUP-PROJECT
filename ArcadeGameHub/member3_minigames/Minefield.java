@@ -8,8 +8,13 @@ import java.util.Random;
 
 public class Minefield extends Game {
 
-    static final String NEON_RED = "\u001B[38;5;196m";
-    static final String RESET    = "\u001B[0m";
+    static final String NEON_RED    = "\u001B[38;5;196m";
+    static final String NEON_CYAN   = "\u001B[38;5;51m";
+    static final String NEON_BLUE   = "\u001B[38;5;27m";
+    static final String NEON_GREEN  = "\u001B[38;5;82m";
+    static final String NEON_ORANGE = "\u001B[38;5;202m";
+    static final String BG_GRAY     = "\u001B[38;5;244m";
+    static final String RESET       = "\u001B[0m";
 
     private boolean[] mines;
     private boolean[] uncovered;
@@ -92,7 +97,7 @@ public class Minefield extends Game {
                             System.out.println(NEON_RED + "\n" + nearbyMines + " mine(s) nearby! +2 points" + RESET);
                             scoreManager.addPoints(2);
                         } else {
-                            System.out.println(NEON_RED + "\nSafe tile! +5 points!" + RESET);
+                            System.out.println(NEON_GREEN + "\nSafe tile! +5 points!" + RESET);
                             scoreManager.addPoints(5);
                             uncoveredCount = autoUncoverSafe(position, uncoveredCount);
                         }
@@ -104,8 +109,8 @@ public class Minefield extends Game {
                     playerWins++;
                     displayField(true);
                     Thread.sleep(400);
-                    System.out.println(NEON_RED + "\nVICTORY! You cleared all safe tiles!" + RESET);
-                    System.out.println(NEON_RED + "Safe tiles cleared: " + uncoveredCount + "/" + safeTiles + RESET);
+                    System.out.println(NEON_GREEN + "\nVICTORY! You cleared all safe tiles!" + RESET);
+                    System.out.println(NEON_GREEN + "Safe tiles cleared: " + uncoveredCount + "/" + safeTiles + RESET);
                     scoreManager.addPoints(50);
                 } else if (gameOver) {
                     System.out.println(NEON_RED + "\nGAME OVER!" + RESET);
@@ -131,15 +136,54 @@ public class Minefield extends Game {
                 if (again.equalsIgnoreCase("n")) {
                     playing = false;
                     Thread.sleep(400);
-                    System.out.println(NEON_RED + "\nYou won " + playerWins + " out of " + totalRounds + " round(s)! Great job!\n" + RESET);
+                    System.out.println(NEON_CYAN + "\nYou won " + playerWins + " out of " + totalRounds + " round(s)! Great job!\n" + RESET);
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
-        endGame();
     }
     
+    private void displayField() {
+        displayField(false);
+    }
+    
+    private void displayField(boolean showMines) {
+        try {
+            System.out.println(NEON_RED + "\n╔═════════════════════════════╗"); Thread.sleep(40);
+            System.out.println("║           MINEFIELD         ║"); Thread.sleep(40);
+            System.out.println("╠═════════════════════════════╣" + RESET); Thread.sleep(40);
+            
+            for (int i = 0; i < gridSize; i++) {
+                System.out.print(NEON_RED + "║    " + RESET);
+                for (int j = 0; j < gridSize; j++) {
+                    int index = i * gridSize + j;
+                    if (uncovered[index]) {
+                        int nearby = countNearbyMines(index);
+                        if (nearby == 1) {
+                            System.out.print(NEON_BLUE + "1    " + RESET);
+                        } else if (nearby == 2) {
+                            System.out.print(NEON_GREEN + "2    " + RESET);
+                        } else if (nearby >= 3) {
+                            System.out.print(NEON_ORANGE + nearby + "    " + RESET);
+                        } else {
+                            System.out.print(BG_GRAY + ".    " + RESET);
+                        }
+                    } else if (showMines && mines[index]) {
+                        System.out.print(NEON_RED + "X    " + RESET);
+                    } else {
+                        System.out.print(NEON_CYAN + "?    " + RESET);
+                    }
+                }
+                System.out.println(NEON_RED + "║" + RESET);
+                Thread.sleep(40);
+            }
+            System.out.println(NEON_RED + "╚═════════════════════════════╝" + RESET);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private int countNearbyMines(int position) {
         int row = position / gridSize;
         int col = position % gridSize;
@@ -182,42 +226,6 @@ public class Minefield extends Game {
             }
         }
         return uncoveredCount;
-    }
-    
-    private void displayField() {
-        displayField(false);
-    }
-    
-    private void displayField(boolean showMines) {
-        try {
-            System.out.println(NEON_RED + "\n╔═════════════════════════════╗"); Thread.sleep(40);
-            System.out.println("║          MINEFIELD          ║"); Thread.sleep(40);
-            System.out.println("╠═════════════════════════════╣" + RESET); Thread.sleep(40);
-            
-            for (int i = 0; i < gridSize; i++) {
-                System.out.print(NEON_RED + "║    " + RESET);
-                for (int j = 0; j < gridSize; j++) {
-                    int index = i * gridSize + j;
-                    if (uncovered[index]) {
-                        int nearby = countNearbyMines(index);
-                        if (nearby > 0) {
-                            System.out.print(nearby + "    ");
-                        } else {
-                            System.out.print(".    ");
-                        }
-                    } else if (showMines && mines[index]) {
-                        System.out.print(NEON_RED + "X    " + RESET);
-                    } else {
-                        System.out.print("?    ");
-                    }
-                }
-                System.out.println(NEON_RED + "║" + RESET);
-                Thread.sleep(40);
-            }
-            System.out.println(NEON_RED + "╚═════════════════════════════╝" + RESET);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     @Override

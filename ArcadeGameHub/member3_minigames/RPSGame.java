@@ -38,7 +38,7 @@ public class RPSGame extends Game {
             System.out.println("0 - Rock");
             System.out.println("1 - Paper");
             System.out.println("2 - Scissors");
-            int playerChoice = inputHandler.getIntInputInRangeWithExit("Your choice (0-2): ", 0, 2);
+            int playerChoice = inputHandler.getIntInputInRangeWithExit("\nYour choice (0-2): ", 0, 2);
             
             int computerChoice = random.nextInt(3);
             
@@ -103,6 +103,5 @@ public class RPSGame extends Game {
 
     @Override
     public void endGame() {
-        System.out.println("Thanks for playing Rock Paper Scissors!");
     }
 }

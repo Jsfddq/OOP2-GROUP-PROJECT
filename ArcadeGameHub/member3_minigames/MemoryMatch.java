@@ -44,7 +44,6 @@ public class MemoryMatch extends Game {
             }
         }
         
-        // Shuffle
         for (int i = board.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
             String temp = board[i];
@@ -167,7 +166,7 @@ public class MemoryMatch extends Game {
                 playing = false;
             }
         }
-        endGame();
+       
     }
     
     private void printBoard() {
@@ -182,10 +181,8 @@ public class MemoryMatch extends Game {
             for (int j = 0; j < 4; j++) {
                 int index = i * 4 + j;
                 if (revealed[index]) {
-                    // Prints the color-coded letter inside a matching 6-character text column
                     System.out.printf(NEON_PINK + "   %s  " + RESET, board[index]);
                 } else {
-                    // Prints unrevealed numbers formatted directly to a clean 6-character width
                     System.out.printf("   %2d ", index + 1);
                 }
             }

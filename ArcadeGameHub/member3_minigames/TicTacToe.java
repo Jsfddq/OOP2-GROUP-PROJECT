@@ -152,7 +152,7 @@ public class TicTacToe extends Game {
                 playing = false;
             }
         }
-        endGame();
+        
     }
     
     private void resetBoard() {
@@ -237,7 +237,7 @@ public class TicTacToe extends Game {
     public void showInstructions() {
         try {
             Thread.sleep(600);
-            System.out.println(NEON_BLUE + "██  ██     ██████ ▄▄  ▄▄▄▄   ██████ ▄▄▄   ▄▄▄▄   ██████ ▄▄▄  ▄▄▄▄▄" + RESET);
+            System.out.println(NEON_BLUE + "██   ██    ██████ ▄▄  ▄▄▄▄   ██████ ▄▄▄   ▄▄▄▄   ██████ ▄▄▄  ▄▄▄▄▄" + RESET);
             Thread.sleep(80);
             System.out.println(NEON_BLUE + "▀█████       ██   ██ ██▀▀▀ ▄▄▄ ██  ██▀██ ██▀▀▀ ▄▄▄ ██  ██▀██ ██▄▄" + RESET);
             Thread.sleep(80);
@@ -279,8 +279,6 @@ public class TicTacToe extends Game {
         System.out.print(NEON_BLUE);
         typeText("===================================================", 15);
         System.out.print(RESET);
-        
-        
     }
 
     @Override
