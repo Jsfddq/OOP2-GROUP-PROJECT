@@ -247,12 +247,12 @@ public class RPSGame extends Game implements TwoPlayerGame {
         System.out.println(NEON_LIME + "\n=== ROCK PAPER SCISSORS INSTRUCTIONS ===" + RESET);
         System.out.println("Choose: Rock (0), Paper (1), or Scissors (2)");
         System.out.println("\nRules:");
-        System.out.println("? Rock beats Scissors");
-        System.out.println("? Paper beats Rock");
-        System.out.println("? Scissors beats Paper");
+        System.out.println(" Rock beats Scissors");
+        System.out.println(" Paper beats Rock");
+        System.out.println(" Scissors beats Paper");
         System.out.println("\nModes:");
-        System.out.println("? Single Player: vs Computer");
-        System.out.println("? Two Player: Play with a friend!");
+        System.out.println(" Single Player: vs Computer");
+        System.out.println(" Two Player: Play with a friend!");
         System.out.println("\nWin a round to earn 5 points!");
         System.out.println("Win the match to earn 10 bonus points!");
         System.out.println("Type 3 at any time to exit to main menu");

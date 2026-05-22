@@ -1,3 +1,5 @@
+package ArcadeGameHub.member2_system;
+
 public interface TwoPlayerGame {
     void setPlayer2(String name);
     String getPlayer2();
