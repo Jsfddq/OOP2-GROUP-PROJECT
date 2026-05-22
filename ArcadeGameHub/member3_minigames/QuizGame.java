@@ -3,6 +3,7 @@ package ArcadeGameHub.member3_minigames;
 import ArcadeGameHub.member1_core.Game;
 import ArcadeGameHub.member2_system.InputHandler;
 import ArcadeGameHub.member2_system.ScoreManager;
+import ArcadeGameHub.member3_minigames.QuizGame.Question;
 import ArcadeGameHub.member4_output.Display;
 
 import java.util.ArrayList;
@@ -56,38 +57,67 @@ public class QuizGame extends Game {
         System.out.println();
     }
 
-    private void playRound(String title, ArrayList<Question> roundQuestions) {
+    private boolean playRound(String title, ArrayList<Question> roundQuestions) {
 
-        printRoundHeader(title);
-        sleep(800);
+    printRoundHeader(title);
+    sleep(800);
 
-        for (Question q : roundQuestions) {
+    for (Question q : roundQuestions) {
 
-            System.out.print(NEON_AMBER);
-            typeText(q.question, 20);
-            System.out.print(RESET);
+        System.out.print(NEON_AMBER);
+        typeText(q.question, 20);
+        System.out.print(RESET);
 
-            for (String option : q.options) {
-                typeText(option, 15);
-            }
-
-            String userAnswer = inputHandler.getStringInputWithExit("Your answer: ")
-                    .toUpperCase()
-                    .trim();
-
-            if (userAnswer.equals(q.answer)) {
-                System.out.print(NEON_AMBER);
-                typeText("Correct! +" + q.points + " points", 30);
-                System.out.print(RESET);
-                scoreManager.addPoints(q.points);
-            } else {
-                typeText("Wrong. Correct answer: " + q.answer, 30);
-            }
-
-            sleep(700);
-            System.out.println();
+        for (String option : q.options) {
+            typeText(option, 15);
         }
+
+        String userAnswer = "";
+        boolean validInput = false;
+        
+        while (!validInput) {
+            try {
+                userAnswer = inputHandler.getStringInput("Your answer: ")
+                        .toUpperCase()
+                        .trim();
+                
+                // Check for exit
+                if (userAnswer.equals("EXIT")) {
+                    System.out.print(NEON_AMBER);
+                    typeText("Exiting to main menu...", 25);
+                    System.out.print(RESET);
+                    return false;  // Signal to exit
+                }
+                
+                // Check if input is valid (A, B, C, or D)
+                if (userAnswer.matches("[ABCD]")) {
+                    validInput = true;
+                } else {
+                    System.out.print(NEON_AMBER);
+                    typeText("Invalid input! Please enter A, B, C, or D (can also be small letters).", 25);
+                    System.out.print(RESET);
+                }
+            } catch (Exception e) {
+                System.out.print(NEON_AMBER);
+                typeText("Invalid input! Please enter A, B, C, or D (can also be small letters).", 25);
+                System.out.print(RESET);
+            }
+        }
+
+        if (userAnswer.equals(q.answer)) {
+            System.out.print(NEON_AMBER);
+            typeText("Correct! +" + q.points + " points", 30);
+            System.out.print(RESET);
+            scoreManager.addPoints(q.points);
+        } else {
+            typeText("Wrong. Correct answer: " + q.answer, 30);
+        }
+
+        sleep(700);
+        System.out.println();
     }
+    return true;  // Continue to next round
+}
 
     @Override
     public void play() {
@@ -133,16 +163,26 @@ public class QuizGame extends Game {
 
         sleep(1000);
 
-        playRound("EASY ROUND (1 point each)", easy);
-        playRound("MEDIUM ROUND (2 points each)", medium);
-        playRound("HARD ROUND (3 points each)", hard);
+        boolean shouldExit = false;
+
+        if (!playRound("EASY ROUND (1 point each)", easy)) {
+            return;  // Exit immediately
+        }
+        if (!playRound("MEDIUM ROUND (2 points each)", medium)) {
+            return;  // Exit immediately
+        }
+        if (!playRound("HARD ROUND (3 points each)", hard)) {
+            return;  // Exit immediately
+        }
 
         System.out.print(NEON_AMBER);
         typeText("\nBONUS ROUND UNLOCKED\n", 40);
         System.out.print(RESET);
         sleep(1000);
 
-        playRound("BONUS ROUND (7 points)", bonus);
+        if (!playRound("BONUS ROUND (7 points)", bonus)){
+            return; // Exit immediately
+        }
 
         int totalScore = scoreManager.getScore();
 
